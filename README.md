@@ -68,7 +68,7 @@ Note: Once search ncbi is available on PyPI, you will be able to install it usin
 After installation, you can use the `ncbisearch` command to perform searches from the command line:
 
 ```bash
-ncbisearch --database pubmed --term "cancer AND genetics" --max_results 10
+ncbisearch --db pubmed --term "cancer AND genetics" --max-results 10
 ```
 
 This will search PubMed for articles related to cancer genetics and return up to 10 results.

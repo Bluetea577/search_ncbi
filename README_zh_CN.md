@@ -71,7 +71,7 @@ python -c "import search_ncbi; print(search_ncbi.__version__)"
 安装后，您可以使用 `ncbisearch` 命令从命令行执行搜索：
 
 ```bash
-ncbisearch --database pubmed --term "cancer AND genetics" --max_results 10
+ncbisearch --db pubmed --term "cancer AND genetics" --max-results 10
 ```
 
 这将在 PubMed 中搜索与癌症遗传学相关的文章，并返回最多 10 个结果。
