@@ -123,7 +123,7 @@ results = searcher.search_and_process(db="pubmed", term="CRISPR", max_results=3)
 from search_ncbi import NCBITools
 
 searcher = NCBITools("youremail@example.com")
-results = searcher.search_and_proces(db="protein", term="insulin homo sapiens", max_results=1)
+results = searcher.search_and_process(db="protein", term="insulin homo sapiens", max_results=1)
 ```
 
 ## 贡献
