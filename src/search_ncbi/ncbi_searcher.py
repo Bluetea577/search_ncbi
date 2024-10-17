@@ -74,7 +74,8 @@ class NCBISearcher:
             total_count = min(max_results, total_count)
 
         for batch in tqdm(range(0, total_count, batch_size), desc = "Looking for IDs"):
-            batch_ids = self.search(db, term, retstart=batch, retmax=batch_size)
+            current_batch_size = min(batch_size, total_count)
+            batch_ids = self.search(db, term, retstart=batch, retmax=current_batch_size)
             all_ids.extend(batch_ids)
 
             if fetch_details:

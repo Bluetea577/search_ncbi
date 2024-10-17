@@ -7,7 +7,7 @@ with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name="search-ncbi",
+    name="search_ncbi",
     version="0.1.0",
     author="Li Mingyang",
     author_email="limingyang577@163.com",
@@ -46,7 +46,7 @@ setup(
     python_requires=">=3.7",
     entry_points={
         "console_scripts": [
-            "ncbisearch=search_ncbi.cli:main",
+            "searchncbi=search_ncbi.cli:main",
         ],
     },
 )

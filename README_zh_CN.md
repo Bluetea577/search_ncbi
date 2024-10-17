@@ -2,6 +2,22 @@
 
 提供了一种简单高效的方法，使用NCBI（国家生物技术信息中心）的Entrez编程实用工具（E-utilities）来搜索其各种生物医学数据库。
 
+
+## 注意
+
+本模块仍处于开发阶段。如果您遇到任何问题或有任何建议，请：
+
+1. 在我们的 GitHub 仓库中开启一个 issue 进行讨论
+2. 提交一个包含您建议修改的 pull request
+3. 直接联系项目维护者：limingyang577@163.com
+
+我们欢迎各种形式的贡献和反馈，以帮助改进这个项目。
+
+---
+
+**注意：** 作为一个开源项目，请确保您的所有交流和贡献都遵守我们的行为准则和贡献指南。
+
+
 ## 功能特性
 
 - 搜索 NCBI 数据库（如 PubMed、核苷酸、蛋白质等）
@@ -34,7 +50,7 @@ pip install git+https://github.com/Bluetea577/search_ncbi.git
 
 2. 进入项目目录：
    ```bash
-   cd search-ncbi
+   cd search_ncbi
    ```
 
 3. 安装包：
@@ -71,30 +87,23 @@ python -c "import search_ncbi; print(search_ncbi.__version__)"
 安装后，您可以使用 `ncbisearch` 命令从命令行执行搜索：
 
 ```bash
-ncbisearch --db pubmed --term "cancer AND genetics" --max-results 10
+searchncbi --email youremail@example.com --db bioproject --term "metagenome" --max-results 10
 ```
 
-这将在 PubMed 中搜索与癌症遗传学相关的文章，并返回最多 10 个结果。
+这将在 bioproject 中搜索与宏基因组相关的研究，并返回最多 10 个结果。
 
 ### Python 模块
 
 您也可以在自己的 Python 脚本中使用 NCBI 工具包：
 
 ```python
-from search_ncbi import NCBISearcher
+from search_ncbi import NCBITools
 
 # 初始化搜索器
-searcher = NCBISearcher()
+searcher = NCBITools("youremail@example.com")
 
 # 执行搜索
-results = searcher.search(database="nucleotide", term="BRCA1", max_results=5)
-
-# 处理结果
-for result in results:
-    print(f"Title: {result.title}")
-    print(f"Accession: {result.accession}")
-    print(f"Sequence Length: {result.sequence_length}")
-    print("---")
+results = searcher.search_and_process(db="nucleotide", term="BRCA1", max_results=5)
 ```
 
 ## 示例
@@ -102,31 +111,19 @@ for result in results:
 ### 示例 1：搜索 PubMed
 
 ```python
-from search_ncbi import NCBISearcher
+from search_ncbi import NCBITools
 
-searcher = NCBISearcher()
-results = searcher.search(database="pubmed", term="CRISPR", max_results=3)
-
-for result in results:
-    print(f"Title: {result.title}")
-    print(f"Authors: {', '.join(result.authors)}")
-    print(f"Journal: {result.journal}")
-    print(f"Publication Date: {result.pub_date}")
-    print("---")
+searcher = NCBITools("youremail@example.com")
+results = searcher.search_and_process(db="pubmed", term="CRISPR", max_results=3)
 ```
 
 ### 示例 2：检索蛋白质序列
 
 ```python
-from search_ncbi import NCBISearcher
+from search_ncbi import NCBITools
 
-searcher = NCBISearcher()
-results = searcher.search(database="protein", term="insulin homo sapiens", max_results=1)
-
-for result in results:
-    print(f"Protein Name: {result.title}")
-    print(f"Accession: {result.accession}")
-    print(f"Sequence:\n{result.sequence[:100]}...")  # 打印序列的前100个字符
+searcher = NCBITools("youremail@example.com")
+results = searcher.search_and_proces(db="protein", term="insulin homo sapiens", max_results=1)
 ```
 
 ## 贡献

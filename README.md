@@ -1,6 +1,22 @@
 # search_ncbi
 This tool provides a simple and efficient way to search NCBI databases using the Entrez Programming Utilities (E-utilities)
 
+
+## Notice
+
+This module is still in the development stage. If you encounter any issues or have suggestions, please:
+
+1. Open an issue in our GitHub repository for discussion
+2. Submit a pull request with your proposed changes
+3. Contact the maintainer directly at limingyang577@163.com
+
+We welcome all forms of contribution and feedback to improve this project.
+
+---
+
+**Note:** As this is an open-source project, please ensure that any communication or contribution adheres to our code of conduct and contribution guidelines.
+
+
 ## Features
 
 - Search NCBI databases (e.g., PubMed, Nucleotide, Protein)
@@ -32,7 +48,7 @@ To install search ncbi from source, follow these steps:
 
 2. Navigate to the project directory:
    ```bash
-   cd search-ncbi
+   cd search_ncbi
    ```
 
 3. Install the package:
@@ -68,30 +84,23 @@ Note: Once search ncbi is available on PyPI, you will be able to install it usin
 After installation, you can use the `ncbisearch` command to perform searches from the command line:
 
 ```bash
-ncbisearch --db pubmed --term "cancer AND genetics" --max-results 10
+searchncbi --email youremail@example.com --db bioproject --term "metagenome" --max-results 10
 ```
 
-This will search PubMed for articles related to cancer genetics and return up to 10 results.
+This will search Bioproject for projects related to metagenome and return up to 10 results.
 
 ### Python Module
 
 You can also use NCBI Tools as a Python module in your own scripts:
 
 ```python
-from search_ncbi import NCBISearcher
+from search_ncbi import NCBITools
 
 # Initialize the searcher
-searcher = NCBISearcher()
+searcher = NCBITools("youremail@example.com")
 
 # Perform a search
-results = searcher.search(database="nucleotide", term="BRCA1", max_results=5)
-
-# Process the results
-for result in results:
-    print(f"Title: {result.title}")
-    print(f"Accession: {result.accession}")
-    print(f"Sequence Length: {result.sequence_length}")
-    print("---")
+results = searcher.search_and_process(db="nucleotide", term="BRCA1", max_results=5)
 ```
 
 ## Examples
@@ -99,31 +108,19 @@ for result in results:
 ### Example 1: Searching PubMed
 
 ```python
-from search_ncbi import NCBISearcher
+from search_ncbi import NCBITools
 
-searcher = NCBISearcher()
-results = searcher.search(database="pubmed", term="CRISPR", max_results=3)
-
-for result in results:
-    print(f"Title: {result.title}")
-    print(f"Authors: {', '.join(result.authors)}")
-    print(f"Journal: {result.journal}")
-    print(f"Publication Date: {result.pub_date}")
-    print("---")
+searcher = NCBITools("youremail@example.com")
+results = searcher.search_and_process(db="pubmed", term="CRISPR", max_results=3)
 ```
 
 ### Example 2: Retrieving Protein Sequences
 
 ```python
-from search_ncbi import NCBISearcher
+from search_ncbi import NCBITools
 
-searcher = NCBISearcher()
-results = searcher.search(database="protein", term="insulin homo sapiens", max_results=1)
-
-for result in results:
-    print(f"Protein Name: {result.title}")
-    print(f"Accession: {result.accession}")
-    print(f"Sequence:\n{result.sequence[:100]}...")  # Print first 100 characters of the sequence
+searcher = NCBITools("youremail@example.com")
+results = searcher.search_and_proces(db="protein", term="insulin homo sapiens", max_results=1)
 ```
 
 ## Contributing
