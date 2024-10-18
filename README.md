@@ -77,51 +77,217 @@ This should print the version number of search ncbi.
 
 Note: Once search ncbi is available on PyPI, you will be able to install it using `pip install search-ncbi`.
 
-## Usage
+## Supported NCBI Libraries
 
-### Command Line Interface
+This project supports the following NCBI libraries:
 
-After installation, you can use the `ncbisearch` command to perform searches from the command line:
+- pubmed
+- protein
+- nuccore
+- nucleotide
+- assembly
+- blastdbinfo
+- books
+- cdd
+- clinvar
+- gap
+- gene
+- geoprofiles
+- medgen
+- omim
+- orgtrack
+- popset
+- pcassay
+- protfam
+- pccompound
+- pcsubstance
+- seqannot
+- biocollections
+- taxonomy
+- bioproject
+- biosample
+- sra
 
-```bash
-searchncbi --email youremail@example.com --db bioproject --term "metagenome" --max-results 10
+## search_ncbi Command Line Interface Usage
+
+After installation, you can use the `searchncbi` command to interact with NCBI databases.
+
+
+### Basic Usage
+
+```
+searchncbi --email <your_email> --api-key <your_api_key> -d <database> -t <search_term> [options]
 ```
 
-This will search Bioproject for projects related to metagenome and return up to 10 results.
+### Required Arguments
 
-### Python Module
+- `--email`: Your email address for NCBI queries (required)
+- `-d, --db`: NCBI database to search (required)
+- `-t, --term`: Search term (required)
 
-You can also use NCBI Tools as a Python module in your own scripts:
+### Optional Arguments
+
+- `--api-key`: Your NCBI API key (optional, but recommended for higher request limits)
+- `-m, --max-results`: Maximum number of results to return (default: all available results)
+- `-b, --batch-size`: Number of results to process in each batch (default: 500)
+- `-o, --output`: Output file name (default: "output.csv")
+- `-a, --action`: Action to perform (default: "metadata")
+
+### Actions
+
+1. `metadata`: Process and save all metadata (default)
+2. `custom`: Process and save custom filtered metadata
+3. `raw`: Retrieve and save raw data
+4. `count`: Get the total count of search results
+5. `id_list`: Retrieve and save a list of IDs
+
+### Custom Filtering Options (for `custom` action)
+
+- `--include`: List of column names to include
+- `--exclude`: List of column names to exclude
+- `--contains`: List of strings that column names should contain
+- `--regex`: Regular expression for filtering column names
+
+### Examples
+
+1. Search PubMed and save all metadata:
+   ```
+   searchncbi --email user@example.com --api-key ABCDEF123456 -d pubmed -t "cancer" -o pubmed_results.csv
+   ```
+
+2. Search Nucleotide database with custom filtering:
+   ```
+   searchncbi --email user@example.com -d nucleotide -t "BRCA1" -a custom --include "GBSeq_locus" "GBSeq_length" -o brca1_custom.csv
+   ```
+
+3. Get raw data from Protein database:
+   ```
+   searchncbi --email user@example.com -d protein -t "insulin" -a raw -m 100 -o insulin_raw.csv
+   ```
+
+4. Get total count of results for a Gene search:
+   ```
+   searchncbi --email user@example.com -d gene -t "human[organism] AND cancer" -a count
+   ```
+
+5. Get ID list for SRA database:
+   ```
+   searchncbi --email user@example.com -d sra -t "RNA-Seq" -a id_list -m 1000 -o sra_ids.txt
+   ```
+
+
+
+## Python Module
+
+### Import
+
+First, ensure that the `search_ncbi` package is installed. Then, import the `NCBITools` class in your Python script:
 
 ```python
 from search_ncbi import NCBITools
-
-# Initialize the searcher
-searcher = NCBITools("youremail@example.com")
-
-# Perform a search
-results = searcher.search_and_process(db="nucleotide", term="BRCA1", max_results=5)
 ```
 
-## Examples
+### Initialization
 
-### Example 1: Searching PubMed
+Create an instance of `NCBITools` by providing your email address and an optional API key:
 
 ```python
-from search_ncbi import NCBITools
-
-searcher = NCBITools("youremail@example.com")
-results = searcher.search_and_process(db="pubmed", term="CRISPR", max_results=3)
+searcher = NCBITools("your_email@example.com", api_key="your_api_key")
 ```
 
-### Example 2: Retrieving Protein Sequences
+Note: The API key is optional but recommended for higher request limits.
+
+### Main Methods
+
+#### 1. Search and Process Data
 
 ```python
-from search_ncbi import NCBITools
-
-searcher = NCBITools("youremail@example.com")
-results = searcher.search_and_process(db="protein", term="insulin homo sapiens", max_results=1)
+results = searcher.search_and_process(
+    db="nucleotide",
+    term="SARS-CoV-2[Organism] AND complete genome[Title]",
+    max_results=10,
+    batch_size=500,
+    process_method='all'
+)
 ```
+
+Parameters:
+- `db`: NCBI database name (string)
+- `term`: Search term (string)
+- `max_results`: Maximum number of results (integer, optional)
+- `batch_size`: Batch size for processing (integer, default 500)
+- `process_method`: Processing method, 'all' or 'custom' (string, default 'all')
+
+For 'custom' processing method, additional filtering parameters can be used: `include`, `exclude`, `contains`, `regex`.
+
+#### 2. Get Raw Data
+
+```python
+raw_data = searcher.get_raw_data(
+    db="nucleotide",
+    term="SARS-CoV-2[Organism] AND complete genome[Title]",
+    max_results=10,
+    batch_size=500
+)
+```
+
+#### 3. Get Search Result Count
+
+```python
+count = searcher.search_count(
+    db="nucleotide",
+    term="SARS-CoV-2[Organism] AND complete genome[Title]"
+)
+```
+
+#### 4. Get ID List
+
+```python
+id_list = searcher.get_id_list(
+    db="nucleotide",
+    term="SARS-CoV-2[Organism] AND complete genome[Title]",
+    max_results=100,
+    batch_size=500
+)
+```
+
+#### 5. Search and Save Metadata
+
+```python
+searcher.search_and_save_metadata(
+    db="nucleotide",
+    term="SARS-CoV-2[Organism] AND complete genome[Title]",
+    output_file="metadata.csv",
+    max_results=100,
+    batch_size=500
+)
+```
+
+#### 6. Filter Metadata
+
+```python
+filtered_data = searcher.filter_metadata(
+    input_file="metadata.csv",
+    output_file="filtered_metadata.csv",
+    filter_term="specific_term"
+)
+```
+
+#### 7. Search, Save, and Filter Metadata (Complete Workflow)
+
+```python
+filtered_data = searcher.search_and_filter_metadata(
+    db="nucleotide",
+    term="SARS-CoV-2[Organism] AND complete genome[Title]",
+    filter_term="specific_term",
+    metadata_file="metadata.csv",
+    filter_file="filtered_metadata.csv",
+    max_results=100,
+    batch_size=500
+)
+```
+
+Note: All methods return pandas DataFrames or appropriate data structures unless otherwise specified. Ensure proper handling of the returned data.
 
 ## Contributing
 

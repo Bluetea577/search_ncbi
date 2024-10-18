@@ -111,18 +111,25 @@ class NCBISearcher:
 
         try:
             ids = ",".join(id_list)
-            if db == "assembly":
+            if (db == "assembly" or "blastdbinfo" or "books" or "cdd" or "clinvar" or "gap" or "geoprofiles" or
+                    "medgen" or "omim" or "orgtrack" or "pcassay" or "protfam" or "pccompound" or "pcsubstance"
+                    or "seqannot" or "biocollections" or "annotinfo"):
                 handle = Entrez.esummary(db=db, id=ids, report="full")
                 records = Entrez.read(handle, validate=False)
                 self.detailed_results = records['DocumentSummarySet']['DocumentSummary']
-            elif db == "bioproject":
-                url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=bioproject&id={ids}&retmode=xml"
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
-                }
-                response = requests.get(url, headers=headers)
-                data = xmltodict.parse(response.content)
-                self.detailed_results = data['RecordSet']['DocumentSummary']
+            elif db == "pubmed":
+                handle = Entrez.efetch(db=db, id=ids, retmode="xml")
+                records = Entrez.read(handle)
+                self.detailed_results = records['PubmedArticle']
+            elif db == "bioproject" or "biosample" or "sra":
+                handle = Entrez.efetch(db=db, id=ids, retmode="xml")
+                records = xmltodict.parse(handle.read())
+                if db == "bioproject":
+                    self.detailed_results = records['RecordSet']['DocumentSummary']
+                elif db == "biosample":
+                    self.detailed_results = records['BioSampleSet']['BioSample']
+                else:
+                    self.detailed_results = records['EXPERIMENT_PACKAGE_SET']['EXPERIMENT_PACKAGE']
             else:
                 handle = Entrez.efetch(db=db, id=ids, retmode="xml")
                 self.detailed_results = Entrez.read(handle)
@@ -138,25 +145,6 @@ class NCBISearcher:
     def get_detailed_results(self):
         """Get the detailed results from the last fetch operation."""
         return self.detailed_results
-
-    def print_summary(self, detailed: bool = True):
-        """
-        Print a summary of the results.
-
-        detailed: If True, print detailed results; otherwise, print only IDs
-        """
-        if detailed and self.detailed_results:
-            for record in self.detailed_results:
-                print(f"ID: {record['GBSeq_locus']}")
-                print(f"Definition: {record['GBSeq_definition']}")
-                print(f"Length: {record['GBSeq_length']}")
-                print("---")
-        elif self.search_results:
-            print("Search Result IDs:")
-            for id in self.search_results:
-                print(id)
-        else:
-            print("No results available. Perform a search first.")
 
 # 使用示例
 if __name__ == "__main__":
