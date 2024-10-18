@@ -83,7 +83,6 @@ python -c "import search_ncbi; print(search_ncbi.__version__)"
 
 支持的ncbi库如下:
 
-- pubmed
 - protein
 - nuccore
 - nucleotide
@@ -154,9 +153,9 @@ searchncbi --email <您的邮箱> --api-key <您的API密钥> -d <数据库> -t 
 
 ### 示例
 
-1. 搜索 PubMed 并保存所有元数据：
+1. 搜索 BioProject 并保存所有元数据：
    ```
-   searchncbi --email user@example.com --api-key ABCDEF123456 -d pubmed -t "cancer" -o pubmed_results.csv
+   searchncbi --email user@example.com --api-key ABCDEF123456 -d bioproject -t "cancer" -o bioproject_results.csv
    ```
 
 2. 使用自定义过滤搜索核苷酸数据库：

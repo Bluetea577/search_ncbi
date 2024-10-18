@@ -81,7 +81,6 @@ Note: Once search ncbi is available on PyPI, you will be able to install it usin
 
 This project supports the following NCBI libraries:
 
-- pubmed
 - protein
 - nuccore
 - nucleotide
@@ -150,9 +149,9 @@ searchncbi --email <your_email> --api-key <your_api_key> -d <database> -t <searc
 
 ### Examples
 
-1. Search PubMed and save all metadata:
+1. Search BioProject and save all metadata:
    ```
-   searchncbi --email user@example.com --api-key ABCDEF123456 -d pubmed -t "cancer" -o pubmed_results.csv
+   searchncbi --email user@example.com --api-key ABCDEF123456 -d bioproject -t "cancer" -o bioproject_results.csv
    ```
 
 2. Search Nucleotide database with custom filtering:
