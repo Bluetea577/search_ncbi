@@ -27,14 +27,14 @@ We welcome all forms of contribution and feedback to improve this project.
 
 ## Installation
 
-Currently, search ncbi is not available on PyPI. You can install it using one of the following methods:
+You can install it using one of the following methods:
 
-### Option 1: Install directly from GitHub
+### Option 1: Install from Conda (Recommended)
 
-You can install the latest version directly from the GitHub repository using pip:
+You can install it from bioconda:
 
 ```bash
-pip install git+https://github.com/Bluetea577/search_ncbi.git
+conda create -n search_ncbi -c bioconda search_ncbi
 ```
 
 ### Option 2: Install from source
@@ -56,26 +56,9 @@ To install search ncbi from source, follow these steps:
    pip install .
    ```
 
-   If you want to install in editable mode for development:
-   ```bash
-   pip install -e .
-   ```
-
 ### Dependencies
 
 search ncbi requires Python 3.6 or later. Other dependencies will be automatically installed when you install the package using one of the methods above.
-
-### Verifying the Installation
-
-After installation, you can verify that search ncbi is installed correctly by running:
-
-```bash
-python -c "import search_ncbi; print(search_ncbi.__version__)"
-```
-
-This should print the version number of search ncbi.
-
-Note: Once search ncbi is available on PyPI, you will be able to install it using `pip install search-ncbi`.
 
 ## Supported NCBI Libraries
 

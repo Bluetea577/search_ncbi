@@ -29,14 +29,14 @@
 
 ## 安装
 
-目前，search ncbi 尚未在 PyPI 上发布。您可以使用以下方法之一进行安装：
+您可以使用以下方法之一进行安装：
 
-### 方法一：直接从 GitHub 安装
+### 方法一：conda安装（推荐）
 
-您可以使用 pip 直接从 GitHub 仓库安装最新版本：
+您可以从bioconda进行安装：
 
 ```bash
-pip install git+https://github.com/Bluetea577/search_ncbi.git
+conda create -n search_ncbi -c bioconda search_ncbi
 ```
 
 ### 方法二：从源代码安装
@@ -58,26 +58,9 @@ pip install git+https://github.com/Bluetea577/search_ncbi.git
    pip install .
    ```
 
-   如果您想以可编辑模式安装以进行开发，请使用：
-   ```bash
-   pip install -e .
-   ```
-
 ### 依赖项
 
 search ncbi 需要 Python 3.6 或更高版本。使用上述安装方法时，其他依赖项将自动安装。
-
-### 验证安装
-
-安装完成后，您可以通过运行以下命令来验证 search ncbi 是否正确安装：
-
-```bash
-python -c "import search_ncbi; print(search_ncbi.__version__)"
-```
-
-这应该会打印出 search ncbi 的版本号。
-
-注意：一旦 search ncbi 在 PyPI 上可用，您就可以使用 `pip install search-ncbi` 来安装它。
 
 ## 支持的ncbi库
 
