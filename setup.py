@@ -8,7 +8,7 @@ with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name="search_ncbi",
-    version="0.1.1",
+    version="0.1.2",
     author="Li Mingyang",
     author_email="limingyang577@163.com",
     description="A package for searching and processing NCBI data",

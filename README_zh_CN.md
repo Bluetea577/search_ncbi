@@ -66,6 +66,7 @@ search ncbi 需要 Python 3.6 或更高版本。使用上述安装方法时，�
 
 支持的ncbi库如下:
 
+- pubmed
 - protein
 - nuccore
 - nucleotide
