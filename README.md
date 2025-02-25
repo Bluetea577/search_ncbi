@@ -64,6 +64,7 @@ search ncbi requires Python 3.6 or later. Other dependencies will be automatical
 
 This project supports the following NCBI libraries:
 
+- pubmed
 - protein
 - nuccore
 - nucleotide

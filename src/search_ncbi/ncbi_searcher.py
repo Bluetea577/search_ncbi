@@ -111,9 +111,17 @@ class NCBISearcher:
 
         try:
             ids = ",".join(id_list)
-            if (db == "assembly" or "blastdbinfo" or "books" or "cdd" or "clinvar" or "gap" or "geoprofiles" or
-                    "medgen" or "omim" or "orgtrack" or "pcassay" or "protfam" or "pccompound" or "pcsubstance"
-                    or "seqannot" or "biocollections" or "annotinfo"):
+            
+            esummary_dbs = {
+                "assembly", "blastdbinfo", "books", "cdd", "clinvar", "gap",
+                "geoprofiles", "medgen", "omim", "orgtrack", "pcassay",
+                "protfam", "pccompound", "pcsubstance", "seqannot",
+                "biocollections", "annotinfo"
+            }
+            
+            xml_dbs = {"bioproject", "biosample", "sra"}
+            
+            if db in esummary_dbs:
                 handle = Entrez.esummary(db=db, id=ids, report="full")
                 records = Entrez.read(handle, validate=False)
                 self.detailed_results = records['DocumentSummarySet']['DocumentSummary']
@@ -121,7 +129,7 @@ class NCBISearcher:
                 handle = Entrez.efetch(db=db, id=ids, retmode="xml")
                 records = Entrez.read(handle)
                 self.detailed_results = records['PubmedArticle']
-            elif db == "bioproject" or "biosample" or "sra":
+            elif db in xml_dbs:
                 handle = Entrez.efetch(db=db, id=ids, retmode="xml")
                 records = xmltodict.parse(handle.read())
                 if db == "bioproject":
